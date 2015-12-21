@@ -1,9 +1,22 @@
-<fragment android:id="@+id/fragment"
-    android:name="info.staticfree.healthtracker.ui.EntryFragment"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:layout="@layout/fragment_entry" />
+    android:orientation="vertical">
+
+    <fragment
+        android:id="@+id/pain_entry_fragment"
+        android:name="info.staticfree.healthtracker.ui.PainEntryFragment"
+        tools:layout="@layout/fragment_pain_entry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <fragment
+        android:id="@+id/entry_list_fragment"
+        android:name="info.staticfree.healthtracker.ui.EntryFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout="@layout/fragment_entry" />
+</LinearLayout>

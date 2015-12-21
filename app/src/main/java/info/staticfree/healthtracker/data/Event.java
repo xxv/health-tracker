@@ -10,11 +10,13 @@ public abstract class Event implements ContentItem {
     public static final String CREATION_DATE = "created";
 
     @DBColumn(type = DatetimeColumn.class, defaultValue = DatetimeColumn.NOW_IN_MILLISECONDS)
-    public static final String EVENT_DATE = "when";
+    public static final String EVENT_DATE = "event_date";
 
     @DBColumn(type = TextColumn.class)
     public static final String TYPE = "type";
 
     @DBColumn(type = TextColumn.class)
     public static final String VALUE = "value";
+
+    public static final EventManager MANAGER = new EventManager();
 }
