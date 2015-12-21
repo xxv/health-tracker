@@ -1,5 +1,7 @@
 package info.staticfree.healthtracker;
 
+import android.content.ContentValues;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,7 +11,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-public class Dashboard extends AppCompatActivity {
+import java.util.Date;
+import java.util.Locale;
+
+import info.staticfree.healthtracker.data.MeasurementEvent;
+import info.staticfree.healthtracker.ui.OnListFragmentInteractionListener;
+
+public class Dashboard extends AppCompatActivity implements OnListFragmentInteractionListener {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -22,8 +30,10 @@ public class Dashboard extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                final ContentValues data = new ContentValues();
+                data.put(MeasurementEvent.VALUE, "kitten");
+                data.put(MeasurementEvent.VALUE_INT, 42);
+                getContentResolver().insert(MeasurementEvent.CONTENT_URI, data);
             }
         });
     }
@@ -48,5 +58,13 @@ public class Dashboard extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onListFragmentInteraction(final Cursor item) {
+        Snackbar.make(findViewById(R.id.content), String.format(Locale.US, "%s %s",
+                        new Date(item.getLong(item.getColumnIndex(MeasurementEvent.CREATION_DATE))),
+                        item.getString(item.getColumnIndex(MeasurementEvent.VALUE))),
+                Snackbar.LENGTH_LONG).show();
     }
 }
