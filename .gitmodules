@@ -1,0 +1,4 @@
+[submodule "SimpleContentProvider"]
+	path = SimpleContentProvider
+	url = git@github.com:xxv/SimpleContentProvider.git
+	branch = dev
