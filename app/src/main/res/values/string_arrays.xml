@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pain_entry_descriptions">
+        <item>@string/pain_entry_description_none</item>
+        <item>@string/pain_entry_description_mild</item>
+        <item>@string/pain_entry_description_mild</item>
+        <item>@string/pain_entry_description_mild</item>
+        <item>@string/pain_entry_description_moderate</item>
+        <item>@string/pain_entry_description_moderate</item>
+        <item>@string/pain_entry_description_moderate</item>
+        <item>@string/pain_entry_description_severe</item>
+        <item>@string/pain_entry_description_severe</item>
+        <item>@string/pain_entry_description_severe</item>
+        <item>@string/pain_entry_description_max</item>
+    </string-array>
+</resources>

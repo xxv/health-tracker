@@ -6,4 +6,10 @@
     <string name="notice_last_entry_updated">Last entry updated</string>
     <string name="notice_new_entry_created">New entry created</string>
     <string name="pain_entry_last_entry_template">%1$s it was %2$s</string>
+    <string name="pain_entry_description_none">No pain. *wiggle*</string>
+    <string name="pain_entry_description_mild">Mild pain. Doesn’t interfere with normal activities.</string>
+    <string name="pain_entry_description_moderate">Moderate pain. Interferes significantly with normal activities.</string>
+    <string name="pain_entry_description_severe">Severe pain. Unable to do normal activities.</string>
+    <string name="pain_entry_description_max">The worst pain. Can barely move.</string>
+
 </resources>

@@ -33,13 +33,16 @@ public class PainEntryFragment extends Fragment {
                     public void onInsertOrUpdate(
                             @NonNull final EventManager.InsertOrUpdateResult insertOrUpdateResult) {
 
-                        if (insertOrUpdateResult.mIsInsert) {
-                            Snackbar.make(getView(), R.string.notice_new_entry_created,
-                                    Snackbar.LENGTH_SHORT).show();
-                        } else {
+                        final View parent = getView();
 
-                            Snackbar.make(getView(), R.string.notice_last_entry_updated,
-                                    Snackbar.LENGTH_SHORT).show();
+                        if (parent != null) {
+                            if (insertOrUpdateResult.mIsInsert) {
+                                Snackbar.make(parent, R.string.notice_new_entry_created,
+                                        Snackbar.LENGTH_SHORT).show();
+                            } else {
+                                Snackbar.make(parent, R.string.notice_last_entry_updated,
+                                        Snackbar.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 };
@@ -47,7 +50,11 @@ public class PainEntryFragment extends Fragment {
                 @Override
                 public void onRatingChanged(final RatingBar ratingBar, final float rating,
                         final boolean fromUser) {
-                    mPainEntryValue.setText(String.format("%d", (int) Math.floor(rating)));
+                    final int ratingInt = (int) Math.floor(rating);
+
+                    mPainEntryValue.setText(String.format("%d", ratingInt));
+                    mPainEntryDescription.setText(getActivity().getResources()
+                            .getStringArray(R.array.pain_entry_descriptions)[ratingInt]);
 
                     if (fromUser) {
                         final ContentValues values = new ContentValues();
@@ -60,6 +67,7 @@ public class PainEntryFragment extends Fragment {
                 }
             };
     private TextView mPainEntryLastEntry;
+    private TextView mPainEntryDescription;
 
     public PainEntryFragment() {
         // Required empty public constructor
@@ -86,6 +94,7 @@ public class PainEntryFragment extends Fragment {
         ((RatingBar) view.findViewById(R.id.ratingBar)).setOnRatingBarChangeListener(mRatingChange);
         mPainEntryValue = (TextView) view.findViewById(R.id.pain_entry_value);
         mPainEntryLastEntry = (TextView) view.findViewById(R.id.pain_entry_last_entry);
+        mPainEntryDescription = (TextView) view.findViewById(R.id.pain_entry_pain_description);
 
         return view;
     }
@@ -121,14 +130,19 @@ public class PainEntryFragment extends Fragment {
             };
 
     public void setLastEntry(@NonNull final Cursor lastEntry) {
-        final long when =
-                lastEntry.getLong(lastEntry.getColumnIndexOrThrow(MeasurementEvent.EVENT_DATE));
-        final CharSequence whenString = DateUtils
-                .getRelativeDateTimeString(getActivity(), when, DateUtils.MINUTE_IN_MILLIS,
-                        3 * DateUtils.DAY_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE);
-        final String value =
-                lastEntry.getString(lastEntry.getColumnIndexOrThrow(MeasurementEvent.VALUE));
-        mPainEntryLastEntry
-                .setText(getString(R.string.pain_entry_last_entry_template, whenString, value));
+        if (lastEntry.getCount() > 0) {
+            final long when =
+                    lastEntry.getLong(lastEntry.getColumnIndexOrThrow(MeasurementEvent.EVENT_DATE));
+            final CharSequence whenString = DateUtils
+                    .getRelativeDateTimeString(getActivity(), when, DateUtils.MINUTE_IN_MILLIS,
+                            3 * DateUtils.DAY_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE);
+            final String value =
+                    lastEntry.getString(lastEntry.getColumnIndexOrThrow(MeasurementEvent.VALUE));
+            mPainEntryLastEntry
+                    .setText(getString(R.string.pain_entry_last_entry_template, whenString, value));
+            mPainEntryLastEntry.setVisibility(View.VISIBLE);
+        } else {
+            mPainEntryLastEntry.setVisibility(View.GONE);
+        }
     }
 }
