@@ -6,13 +6,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/pain_entry_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="20sp"
             android:text="@string/label_pain_rating"
             android:textAppearance="@android:style/TextAppearance.Large" />
 
@@ -25,12 +26,33 @@
             android:layout_centerHorizontal="true"
             tools:text="5" />
 
+        <TextView
+            android:id="@+id/pain_entry_pain_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pain_entry_value"
+            android:gravity="center"
+            android:padding="10sp"
+            tools:text="Moderate pain. Interferes significantly with activities." />
+
         <RatingBar
             android:id="@+id/ratingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/pain_entry_value"
+            android:layout_below="@id/pain_entry_pain_description"
             android:layout_gravity="center"
+            android:stepSize="1"
             android:numStars="10" />
+
+        <TextView
+            android:id="@+id/pain_entry_last_entry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ratingBar"
+            android:layout_alignParentBottom="true"
+            android:background="#a0aaaaaa"
+            android:gravity="center"
+            android:padding="10sp"
+            tools:text="Yesterday at 4:20pm it was 3" />
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

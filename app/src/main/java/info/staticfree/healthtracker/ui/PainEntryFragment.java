@@ -1,10 +1,15 @@
 package info.staticfree.healthtracker.ui;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +29,6 @@ public class PainEntryFragment extends Fragment {
             new RatingBar.OnRatingBarChangeListener() {
 
                 private final InsertOrUpdateListener mListener = new InsertOrUpdateListener() {
-
                     @Override
                     public void onInsertOrUpdate(
                             @NonNull final EventManager.InsertOrUpdateResult insertOrUpdateResult) {
@@ -43,7 +47,7 @@ public class PainEntryFragment extends Fragment {
                 @Override
                 public void onRatingChanged(final RatingBar ratingBar, final float rating,
                         final boolean fromUser) {
-                    mPainEntryValue.setText(String.format("%.1f", rating));
+                    mPainEntryValue.setText(String.format("%d", (int)Math.floor(rating)));
 
                     if (fromUser) {
                         final ContentValues values = new ContentValues();
@@ -55,6 +59,7 @@ public class PainEntryFragment extends Fragment {
                     }
                 }
             };
+    private TextView mPainEntryLastEntry;
 
     public PainEntryFragment() {
         // Required empty public constructor
@@ -80,7 +85,48 @@ public class PainEntryFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_pain_entry, container, false);
         ((RatingBar) view.findViewById(R.id.ratingBar)).setOnRatingBarChangeListener(mRatingChange);
         mPainEntryValue = (TextView) view.findViewById(R.id.pain_entry_value);
+        mPainEntryLastEntry = (TextView) view.findViewById(R.id.pain_entry_last_entry);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getLoaderManager().initLoader(0, null, mLastEntryLoaderCallbacks);
+    }
+
+    private final LoaderCallbacks<Cursor> mLastEntryLoaderCallbacks =
+            new LoaderCallbacks<Cursor>() {
+
+                @Override
+                public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
+                    return new CursorLoader(getActivity(), MeasurementEvent.CONTENT_URI, null, null,
+                            null, MeasurementEvent.EVENT_DATE + " DESC");
+                }
+
+                @Override
+                public void onLoadFinished(final Loader<Cursor> loader, final Cursor data) {
+                    data.moveToFirst();
+                    setLastEntry(data);
+                }
+
+                @Override
+                public void onLoaderReset(final Loader<Cursor> loader) {
+
+                }
+            };
+
+    public void setLastEntry(@NonNull final Cursor lastEntry) {
+        final long when =
+                lastEntry.getLong(lastEntry.getColumnIndexOrThrow(MeasurementEvent.EVENT_DATE));
+        final CharSequence whenString = DateUtils
+                .getRelativeDateTimeString(getActivity(), when, DateUtils.MINUTE_IN_MILLIS,
+                        3 * DateUtils.DAY_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE);
+        final String value =
+                lastEntry.getString(lastEntry.getColumnIndexOrThrow(MeasurementEvent.VALUE));
+        mPainEntryLastEntry
+                .setText(getString(R.string.pain_entry_last_entry_template, whenString, value));
     }
 }

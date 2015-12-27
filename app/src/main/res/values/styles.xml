@@ -22,7 +22,7 @@
     </style>
 
     <style name="TextAppearance.Jumbo" parent="TextAppearance.AppCompat.Large">
-        <item name="android:textSize">60sp</item>
+        <item name="android:textSize">72sp</item>
     </style>
 
     <style name="PainEntryPainValue">

@@ -5,4 +5,5 @@
     <string name="label_pain_rating">How bad is your pain?</string>
     <string name="notice_last_entry_updated">Last entry updated</string>
     <string name="notice_new_entry_created">New entry created</string>
+    <string name="pain_entry_last_entry_template">%1$s it was %2$s</string>
 </resources>
