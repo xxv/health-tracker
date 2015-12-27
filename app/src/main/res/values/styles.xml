@@ -17,4 +17,17 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="PainRating" parent="Base.Widget.AppCompat.RatingBar">
+
+    </style>
+
+    <style name="TextAppearance.Jumbo" parent="TextAppearance.AppCompat.Large">
+        <item name="android:textSize">60sp</item>
+    </style>
+
+    <style name="PainEntryPainValue">
+        <item name="android:textAppearance">@style/TextAppearance.Jumbo</item>
+        <item name="android:layout_margin">10sp</item>
+    </style>
+
 </resources>

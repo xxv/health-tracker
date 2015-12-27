@@ -1,19 +1,30 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="info.staticfree.healthtracker.ui.PainEntryFragment">
 
     <TextView
-        android:text="@string/label_pain_rating"
-        android:textAppearance="@android:style/TextAppearance.Large"
+        android:id="@+id/pain_entry_label"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <RatingBar
+        android:layout_height="wrap_content"
+        android:text="@string/label_pain_rating"
+        android:textAppearance="@android:style/TextAppearance.Large" />
+
+    <TextView
+        android:id="@+id/pain_entry_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="@style/PainEntryPainValue"
+        android:layout_below="@id/pain_entry_label"
+        android:layout_centerHorizontal="true"
+        tools:text="5" />
+
+    <RatingBar
         android:id="@+id/ratingBar"
+        android:layout_below="@id/pain_entry_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:numStars="10" />
-</LinearLayout>
+</RelativeLayout>
