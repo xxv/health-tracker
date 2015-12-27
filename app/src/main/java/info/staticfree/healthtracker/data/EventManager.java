@@ -13,7 +13,17 @@ import android.support.annotation.Nullable;
 
 import java.lang.ref.WeakReference;
 
+import edu.mit.mobile.android.content.ProviderUtils;
+
 public class EventManager {
+
+    @NonNull
+    private final String mEventType;
+
+    public EventManager(@NonNull final String eventType) {
+        mEventType = eventType;
+    }
+
     /**
      * Inserts or updates, based on when the last entry was made.
      */
@@ -50,8 +60,8 @@ public class EventManager {
         final boolean isInsert;
 
         final Cursor inWindow = resolver.query(uri, new String[] { Event.EVENT_DATE, Event._ID },
-                Event.EVENT_DATE + " >= (? - ?)", new String[] {
-                        String.valueOf(when), String.valueOf(deDuplicateWindow)
+                Event.EVENT_DATE + " >= (? - ?) AND " + Event.TYPE + " IS ?", new String[] {
+                        String.valueOf(when), String.valueOf(deDuplicateWindow), mEventType
                 }, Event.EVENT_DATE + " DESC");
 
         if (inWindow != null) {
@@ -66,6 +76,7 @@ public class EventManager {
                     resolver.update(content, values, null, null);
                     isInsert = false;
                 } else {
+                    values.put(Event.TYPE, mEventType);
                     content = resolver.insert(uri, values);
                     isInsert = true;
                 }
@@ -77,6 +88,14 @@ public class EventManager {
         }
 
         return new InsertOrUpdateResult(content, isInsert);
+    }
+
+    public Cursor query(@NonNull final ContentResolver contentResolver, @NonNull final Uri uri,
+            @Nullable final String[] projection, @Nullable final String selection,
+            @Nullable final String[] selectionArgs, @Nullable final String sortOrder) {
+        return contentResolver.query(uri, projection,
+                ProviderUtils.addExtraWhere(selection, Event.TYPE + " IS ?"),
+                ProviderUtils.addExtraWhereArgs(selectionArgs, mEventType), sortOrder);
     }
 
     public interface InsertOrUpdateListener {

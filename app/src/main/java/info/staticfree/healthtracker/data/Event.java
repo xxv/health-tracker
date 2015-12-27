@@ -18,5 +18,5 @@ public abstract class Event implements ContentItem {
     @DBColumn(type = TextColumn.class)
     public static final String VALUE = "value";
 
-    public static final EventManager MANAGER = new EventManager();
+    public static final String EVENT_TYPE_MEASUREMENT = "measurement";
 }

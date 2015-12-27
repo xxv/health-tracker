@@ -35,11 +35,11 @@ public class PainEntryFragment extends Fragment {
 
                         if (insertOrUpdateResult.mIsInsert) {
                             Snackbar.make(getView(), R.string.notice_new_entry_created,
-                                    Snackbar.LENGTH_LONG).show();
+                                    Snackbar.LENGTH_SHORT).show();
                         } else {
 
                             Snackbar.make(getView(), R.string.notice_last_entry_updated,
-                                    Snackbar.LENGTH_LONG).show();
+                                    Snackbar.LENGTH_SHORT).show();
                         }
                     }
                 };
@@ -47,7 +47,7 @@ public class PainEntryFragment extends Fragment {
                 @Override
                 public void onRatingChanged(final RatingBar ratingBar, final float rating,
                         final boolean fromUser) {
-                    mPainEntryValue.setText(String.format("%d", (int)Math.floor(rating)));
+                    mPainEntryValue.setText(String.format("%d", (int) Math.floor(rating)));
 
                     if (fromUser) {
                         final ContentValues values = new ContentValues();
@@ -102,8 +102,10 @@ public class PainEntryFragment extends Fragment {
 
                 @Override
                 public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
-                    return new CursorLoader(getActivity(), MeasurementEvent.CONTENT_URI, null, null,
-                            null, MeasurementEvent.EVENT_DATE + " DESC");
+                    return new CursorLoader(getActivity(), MeasurementEvent.CONTENT_URI, null,
+                            MeasurementEvent.TYPE + " IS ?",
+                            new String[] { MeasurementEvent.EVENT_TYPE_MEASUREMENT },
+                            MeasurementEvent.EVENT_DATE + " DESC");
                 }
 
                 @Override

@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ratingBar"
             android:layout_alignParentBottom="true"
-            android:background="#a0aaaaaa"
+            android:background="#307f7f7f"
             android:gravity="center"
             android:padding="10sp"
             tools:text="Yesterday at 4:20pm it was 3" />
